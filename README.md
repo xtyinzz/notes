@@ -1,5 +1,7 @@
 <link href="static/style.css" rel="stylesheet">
 
+**Note: view with [Markdown Preview Enhanced](https://github.com/shd101wyy/markdown-preview-enhanced), available on VS Code,  for latex rendering.**
+
 # Table of Content
 - [Table of Content](#table-of-content)
   - [Scivis](#scivis)
