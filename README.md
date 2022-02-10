@@ -15,16 +15,26 @@
     - [Feature (Detection, Tracking)](#feature-detection-tracking)
     - [Flow Vis](#flow-vis)
     - [Particle (Need This Separate?)](#particle-need-this-separate)
-    - [Topology Comp Geometry](#topology-comp-geometry)
+    - [Similarity and Comparison](#similarity-and-comparison)
+    - [Topology and Computational Geometry](#topology-and-computational-geometry)
   - [Deep Learning](#deep-learning)
     - [Neural Rendering](#neural-rendering)
     - [Transformer](#transformer)
     - [Implicit Representation](#implicit-representation)
     - [Point Cloud](#point-cloud)
     - [Autoencoder](#autoencoder)
-    - [Uncertainty in DL](#uncertainty-in-dl)
+    - [Generative Model](#generative-model)
+      - [GAN](#gan)
+      - [Normalizing Flow](#normalizing-flow)
+      - [Energy-Based Models](#energy-based-models)
+      - [VAE](#vae)
+    - [Uncertainty Quantification](#uncertainty-quantification)
     - [Image](#image)
     - [NN Optimization and Theory](#nn-optimization-and-theory)
+  - [Computer Graphics](#computer-graphics)
+    - [Path Tracing: Denoising](#path-tracing-denoising)
+    - [Path Tracing: Path Guiding](#path-tracing-path-guiding)
+    - [Mipmaping](#mipmaping)
   - [Other Topics](#other-topics)
 
 ## Scivis
@@ -78,6 +88,13 @@
 
 ### Data Reduction
 
+- [ ] **A Multi-branch Decoder Network Approach toAdaptive Temporal Data Selection andReconstruction for Big Scientific Simulation Data [BigData, 2021]** [[Paper]](pdfs/A_Multi-branch_Decoder_Network_Approach_toAdaptive_Temporal_Data_Selection_andReconstruction_for_Big_Scientific_Simulation_Data.pdf)
+
+<br>
+
+- [ ] **High-quality and Low-memory footprint Progressive Decoding of Large-scale Particle Data [LDAV, 2021]** [[Paper]](pdfs/High-quality_and_Low-memory-footprint_Progressive_Decoding_of_Large-scale_Particle_Data.pdf)
+
+<br>
 
 - [ ] **Probabilistic Data-Driven Sampling via Multi-Criteria Importance Analysis** A. Biswas, S. Dutta, E. Lawrence, J. Patchett, J. C. Calhoun and J. Ahrens [[Paper]](pdfs/Probabilistic_Data-Driven_Sampling_via_Multi-Criteria_Importance_Analysis.pdf)
 
@@ -168,6 +185,50 @@
   > Takeaways:
   > - In data reduction with GMM, sample location consideration is non-trivial, and there seems to be room for improvement or reduction/super-res methods that work with location information directly.
 
+<br>
+
+- [ ] **Image and Distribution Based Volume Rendering for Large Data Sets [Pvis, 2018]** [[Paper]](pdfs/Image_and_Distribution_Based_Volume_Rendering_for_Large_Data_Sets.pdf)
+
+<br>
+
+- [x] **Ray-Based Exploration of Large Time-Varying Volume Data Using Per-Ray Proxy Distributions [TVCG, 2020]**, K. -C. Wang, T. -H. Wei, N. Shareef and H. -W. Shen [[Paper]](pdfs/Ray-Based_Exploration_of_Large_Time-Varying_Volume_Data_Using_Per-Ray_Proxy_Distributions.pdf)
+  > For a single view, summarize each pixel ray with value histogram and depth info (location of samples). Reconstruction done based on hist and depth and custome TF. Temporal coherence checked by recontructed RMSE between t and lerp(t_prev, t_next), if error low then just use lerp to save reconstruction
+  - Temporal Reduce by Exploiting Coherency
+    - for non-sampled TS, cast ray and compare with interpolant between 2 sampled TS. If error small then use interpolation, else save sampled ray.
+
+  <br>
+
+  > Takeaways
+  > - Data Reduction for spatial-temporal data: 1. compression 2. distribution summary
+
+<br>
+
+- [ ] **Homogeneity guided probabilistic data summaries for analysis and visualization of large-scale data sets [Pvis, 2017]** [[Paper]](pdfs/Homogeneity_guided_probabilistic_data_summaries_for_analysis_and_visualization_of_large-scale_data_sets.pdf)
+  > partition volume with SLIC (Simple Linear Iterative Clustering) to achieve region homogeneity s.t. more compact statistical summary can be used
+  - Storage
+    - Regular Grid
+      - botoom front left, top back right corner
+    - K-D Partition
+      - id of corners of each bounding box
+
+<br>
+
+- [ ] **Statistical Visualization and Analysis of Large Data Using a Value-based Spatial Distribution [Pvis, 2017]** [[Paper]](pdfs/Statistical_visualization_and_analysis_of_large_data_using_a_value-based_spatial_distribution.pdf)
+
+<br>
+
+- [ ] **In Situ Distribution Guided Analysis and Visualization of Transonic Jet Engine Simulations [SciVis, 2016]** [[Paper]](pdfs/In_Situ_Distribution_Guided_Analysis_and_Visualization_of_Transonic_Jet_Engine_Simulations.pdf)
+  > in-situ block-wise incremental GMM to summarize data. Local anomoly detecte in spatial and temporal dimension based on expected GMM and EMD similarity. Overview for anamoly analysis via Superimposed comparative charts.
+  - Block-wise incremental GMM (Algorithm: *Adaptive background mixture models for real-time tracking*):
+    - enables in-situ GMM estimation
+  - Anamoly Detection
+    - Spatial Detection:
+      - Over all block, compute *expected* GMM , check for outlier Block GMM with EMD
+    - Temporal Detection
+      - Problem: overtime anamoly might dominate and spatial detection method would fail.
+      - Solution: Over time for 1 block, compute change in its GMM to define temporal anamoly
+
+<br>
 
 ---
 
@@ -198,11 +259,24 @@
 - [x] **InSituNet: Deep Image Synthesis for Parameter Space Exploration of Ensemble Simulations [TVCG, 2019]**, W. He et al. [[Paper]](pdfs/InSituNet.pdf)
   > using visualization image generated in-situ as supervision, train an NN that predicts image given simulation and visualization parameter
 
-- [ ] **NNVA: Neural Network Assisted Visual Analysis of Yeast Cell Polarization Simulation [TVCG, 2020]**, S. Hazarika, H. Li, K. -C. Wang, H. -W. Shen and C. -S. Chou [[Paper]](/)
+- [ ] **NNVA: Neural Network Assisted Visual Analysis of Yeast Cell Polarization Simulation [TVCG, 2020]**, S. Hazarika, H. Li, K. -C. Wang, H. -W. Shen and C. -S. Chou [[Paper]](pdfs/NNVA_Neural_Network_Assisted_Visual_Analysis_of_Yeast_Cell_Polarization_Simulation.pdf)
+  > A neural surrogate of simulation with numerou parameters is utilized as a foundation of uncertainty visualzation, parameter sensitivity, parameter optimization, and model diagnosis.
 
 ---
 
 ### Uncertainty and Ensemble Vis
+
+- [ ] **Uncertainty Visualization of the Marching Squares and Marching Cubes Topology Cases [Vis Short, 2021]** Tushar M. Athawale, Sudhanshu Sane, Chris R. Johnson [[Paper]](pdfs/uncertain_visualization_of_marching_cubes_topology_cases.pdf)
+
+<br>
+
+- [ ] **Visual Analysis of Multi-Parameter Distributions across Ensembles of 3D Fields [TVCG, 2021]** [[Paper]](pdfs/Visual_Analysis_of_Multi-Parameter_Distributions_across_Ensembles_of_3D_Fields.pdf)
+
+<br>
+
+- [ ] **Uncertainty-Oriented Ensemble Data Visualization and Exploration using Variable Spatial Spreading [TVCG, 2021]** [[Paper]](pdfs/Uncertainty-Oriented_Ensemble_Data_Visualization_and_Exploration_using_Variable_Spatial_Spreading.pdf)
+
+<br>
 
 - [ ] **Ensemble Vis Survey [TVCG, 2020]** J. Wang [[Paper]](pdfs/EnsembleSurvey.pdf)
   - Uncertain Rendering:
@@ -213,6 +287,7 @@
 
 - [ ] **Uncertainty-Aware Principal Component Analysis [TVCG, 2020]** J. Görtler, T. Spinner, D. Streeb, D. Weiskopf and O. Deussen [[Paper]](pdfs/Uncertainty-Aware_Principal_Component_Analysis.pdf)
 
+<br>
 
 - [ ] **eFESTA: Ensemble Feature Exploration with Surface Density Estimates [TVCG, 2020]** W. He, H. Guo, H. Shen and T. Peterka [[Paper]](pdfs/eFESTA_Ensemble_Feature_Exploration_with_Surface_Density_Estimates.pdf)
   - s
@@ -229,6 +304,14 @@
 <br>
 
 - [ ] **Visualization of Uncertainty for Computationally Intensive Simulations Using High Fidelity Emulators [SciVis, 2018]** A. Biswas, K. R. Moran, E. Lawrence and J. Ahrens [[Paper]](pdfs/Visualization_of_Uncertainty_for_Computationally_Intensive_Simulations_Using_High_Fidelity_Emulators.pdf)
+
+<br>
+
+- [ ] **Information Guided Exploration of Scalar Values and Isocontours in Ensemble Datasets [Entropy, 2018]** Subhashis Hazarika, Ayan Biswas, Soumya Dutta, Han-Wei Shen [[Paper]](pdfs/entropy-20-00540.pdf)
+
+<br>
+
+- [ ] **Uncertainty Visualization Using Copula-Based Analysis in Mixed Distribution Models [TVCG, 2017]** Subhashis Hazarika [[Paper]](pdfs/Uncertainty_Visualization_Using_Copula-Based_Analysis_in_Mixed_Distribution_Models.pdf)
 
 <br>
 
@@ -254,6 +337,16 @@
   - Results:
     - real-time rendering (>30 fps)
     - reveals fine features with transfer function highlighting feature isovalues, comparing to fuzzy isosurfacing, LCP field DVR, and gaussian process regression (?)
+
+<br>
+
+- [ ] **Range Likelihood Tree: A Compact and Effective Representation for Visual Exploration of Uncertain Data Sets [Pvis, 2017]** [[Paper]](pdfs/Range_likelihood_tree_A_compact_and_effective_representation_for_visual_exploration_of_uncertain_data_sets.pdf)
+  - For a probability distribution field, break each pdf into ranges (cumulative denstiy) and make a Hierarchical Clustering Tree based on the similarity values (across grid points) for each range
+  - ![nn](imgs/range-likelihood-tree.png)
+
+<br>
+
+- [ ] **Visual Analysis of Spatial Variability and Global Correlations in Ensembles of Iso‐Contours [EuroVis, 2016]** F. Ferstl,M. Kanzler,M. Rautenhaus,R. Westermann [[Paper]](pdfs/cgf.12898.pdf)
 
 <br>
 
@@ -310,6 +403,14 @@
 <br>
 
 - [ ] **Gaussian mixture model based volume visualization [LDAV, 2012]** S. Liu, J. A. Levine, P. Bremer and V. Pascucci [[Paper]](pdfs/Gaussian_mixture_model_based_volume_visualization.pdf)
+  - GMM in voxel neighborhood level or voxel ensemble level
+  - **Fuzzy Rendering**
+    - For each frame, each vtx draws GMM sample, ray casting.
+    - Fuzzyness: different samples each frame creates varying VR.
+  - **MC Integration for Static Uncertain VR**
+    - Drawback of FR: needs animation to convery uncertainty/distribution
+    - 
+
 
 <br>
 
@@ -317,8 +418,7 @@
 
 <br>
 
-- [x] **Positional Uncertainty of Isocontours: Condition Analysis and Probabilistic Measures [TVCG, 2010]** K. Pothkow and H. Hege [[Paper]](pdfs/Positional_Uncertainty_of_Isocontours_Condition_Analysis_and_Probabilistic_Measures.pdf)
-  - [Uncertain Isocontour Markdown](UncertainIsocontour.md)
+- [ ] **Analysis of large-scale scalar data using hixels [LDAV, 2011]** D. Thompson et al [[Paper]](pdfs/Analysis_of_large-scale_scalar_data_using_hixels.pdf)
 
 <br>
 
@@ -327,27 +427,8 @@
 
 <br>
 
-- [ ] **Analysis of large-scale scalar data using hixels [LDAV, 2011]** D. Thompson et al [[Paper]](pdfs/Analysis_of_large-scale_scalar_data_using_hixels.pdf)
-
-<br>
-
-- [ ] **Uncertainty Visualization of the Marching Squares and Marching Cubes Topology Cases [Vis Short, 2021]** Tushar M. Athawale, Sudhanshu Sane, Chris R. Johnson [[Paper]](pdfs/uncertain_visualization_of_marching_cubes_topology_cases.pdf)
-
-<br>
-
-- [ ] **Visual Analysis of Multi-Parameter Distributions across Ensembles of 3D Fields [TVCG, 2021]** [[Paper]](pdfs/Visual_Analysis_of_Multi-Parameter_Distributions_across_Ensembles_of_3D_Fields.pdf)
-
-<br>
-
-- [ ] **Uncertainty-Oriented Ensemble Data Visualization and Exploration using Variable Spatial Spreading [TVCG, 2021]** [[Paper]](pdfs/Uncertainty-Oriented_Ensemble_Data_Visualization_and_Exploration_using_Variable_Spatial_Spreading.pdf)
-
-<br>
-
-- [ ] **Visual Analysis of Spatial Variability and Global Correlations in Ensembles of Iso‐Contours**
-
-<br>
-
-- [ ] **Information Guided Exploration of Scalar Values and Isocontours in Ensemble Datasets**
+- [x] **Positional Uncertainty of Isocontours: Condition Analysis and Probabilistic Measures [TVCG, 2010]** K. Pothkow and H. Hege [[Paper]](pdfs/Positional_Uncertainty_of_Isocontours_Condition_Analysis_and_Probabilistic_Measures.pdf)
+  - [Uncertain Isocontour Markdown](UncertainIsocontour.md)
 
 <br>
 
@@ -368,28 +449,31 @@
   - Proposed a denoising technique with image space linear predictor
     - advantage: great quality (not overly blurred like RNN, not affected much by out-of-sample data), no pre-training, and running real-time with commodity hardware
 
-- [ ] **Explorable Volumetric Depth Images from Raycasting**
+<br>
+
+- [ ] **DNN-VolVis: Interactive Volume Visualization Supported by Deep Neural Network [Pvis, 2019]** [[Paper]](pdfs/DNN-VolVis_Interactive_Volume_Visualization_Supported_by_Deep_Neural_Network.pdf)
+
+
+<br>
+
+- [ ] **Explorable Volumetric Depth Images from Raycasting** S. Frey, F. Sadlo and T. Ertl [[Paper]](pdfs/Explorable_Volumetric_Depth_Images_from_Raycasting.pdf)
 
 ### Time-Varying
-
-- [x] **Ray-Based Exploration of Large Time-Varying Volume Data Using Per-Ray Proxy Distributions [TVCG, 2020]**, K. -C. Wang, T. -H. Wei, N. Shareef and H. -W. Shen [[Paper]](pdfs/Ray-Based_Exploration_of_Large_Time-Varying_Volume_Data_Using_Per-Ray_Proxy_Distributions.pdf)
-  > For a single view, summarize each pixel ray with value histogram and depth info (location of samples). Reconstruction done based on hist and depth and custome TF. Temporal coherence checked by recontructed RMSE between t and lerp(t_prev, t_next), if error low then just use lerp to save reconstruction
-
-  <br>
-
-  > Takeaways
-  > - Data Reduction for spatial-temporal data: 1. compression 2. distribution summary
 
 ---
 
 ### Feature (Detection, Tracking)
 
-- [ ] **Geometry-Driven Detection, Tracking and Visual Analysis of Viscous and Gravitational Fingers** [[Paper]](pdfs/Geometry-Driven_Detection_Tracking_and_Visual_Analysis_of_Viscous_and_Gravitational_Fingers.pdf)
+- [ ] **ContourNet: Salient Local Contour Identification for Blob Detection in Plasma Fusion Simulation Data**
+
+<br>
+
+- [ ] **Geometry-Driven Detection, Tracking and Visual Analysis of Viscous and Gravitational Fingers [TVCG, 2020]** [[Paper]](pdfs/Geometry-Driven_Detection_Tracking_and_Visual_Analysis_of_Viscous_and_Gravitational_Fingers.pdf)
 
 <br>
 
 - [ ] **Deep-Learning-Assisted Volume Visualization** [[Paper]](pdfs/Deep-Learning-Assisted_Volume_Visualization.pdf)
-  - 
+  > CNN activations used as high-level feature representation for visualizing structural complexity of volume (e.g. bacterial cell structure) by hand-crafting a *characteristic feature vector* and find similar vectors which should represent meaningful semantics.
 
 <br>
 
@@ -401,15 +485,34 @@
 
 <br>
 
+- [ ] **Distribution Driven Extraction and Tracking of Features for Time-varying Data Analysis [TVCG, 2016]** [[Paper]](pdfs/Distribution_Driven_Extraction_and_Tracking_of_Features_for_Time-varying_Data_Analysis.pdf)
+
 ---
 
 ### Flow Vis
+
+- [ ] **Exploratory Lagrangian-Based Particle Tracing Using Deep Learning [Flow Vis & Image Processing, 2021]** [[Paper]](pdfs/2110.08338.pdf)
+
+<br>
+
+- [ ] **A Fluid Flow Data Set for Machine Learning and its Application to Neural Flow Map Interpolation [TVCG, 2021]** J. Jakob, M. Gross and T. Günther [[Paper]](pdfs/A_Fluid_Flow_Data_Set_for_Machine_Learning_and_its_Application_to_Neural_Flow_Map_Interpolation.pdf)
+
+<br>
+
+- [ ] **FlowNet: A Deep Learning Framework for Clustering and Selection of Streamlines and Stream Surfaces [VIS, 2019]** [[Paper]](pdfs/tvcg20-flownet.pdf)
+
+<br>
 
 - [ ] **Vector Field Topology of Time-Dependent Flows in a Steady Reference Frame [TVCG, 2020]** I. B. Rojo and T. Günther [[Paper]](pdfs/Vector_Field_Topology_of_Time-Dependent_Flows_in_a_Steady_Reference_Frame.pdf)
 
 <br>
 
 - [ ] **Extreme-Scale Stochastic Particle Tracing for Uncertain Unsteady Flow Visualization and Analysis [TVCG, 2019]**, H. Guo et al. [[Paper]](pdfs/Extreme-Scale_Stochastic_Particle_Tracing_for_Uncertain_Unsteady_Flow_Visualization_and_Analysis.pdf)
+  - Contributions
+    - Increased *Stochastic Flow Maps (SFMs)* parallelism by decoupling time dependencies
+    - Adaptive refinement, estimating particle density pdf by iterations of new particle batches until convergence, to reduce SFM estimation time
+    - Asyncrhonous parallel framework for stochastic parallel tracing23`1
+
 
 <br>
 
@@ -421,9 +524,99 @@
 
 ### Particle (Need This Separate?)
 
+- [ ] **Spatial Partitioning Strategies for Memory-Efficient Ray Tracing of Particles [LDAV, 2020]** [[Paper]](pdfs/Spatial_Partitioning_Strategies_for_Memory-Efficient_Ray_Tracing_of_Particles.pdf)
+
+<br>
+
+- [ ] **Screen-Space Normal Distribution Function Caching for Consistent Multi-Resolution Rendering of Large Particle Data [TVCG, 2018]** [[Paper]](pdfs/Screen-Space_Normal_Distribution_Function_Caching_for_Consistent_Multi-Resolution_Rendering_of_Large_Particle_Data.pdf)
+
+<br>
+
+- [ ] **Memory-Efficient On-the-Fly Voxelization and Rendering of Particle Data [TVCG, 2018]** [[Paper]](pdfs/Memory-Efficient_On-the-Fly_Voxelization_and_Rendering_of_Particle_Data.pdf)
+
+<br>
+
+- [ ] **Spatio-Temporal Feature Exploration in Combined Particle/Volume Reference Frames [TVCG, 2017]** [[Paper]](pdfs/Spatio-Temporal_Feature_Exploration_in_Combined_Particle_Volume_Reference_Frames.pdf)
+
+<br>
+
+- [ ] **CAST: Effective and Efficient User Interaction for Context-Aware Selection in 3D Particle Clouds [TVCG, 2016]** [[Paper]](pdfs/CAST_Effective_and_Efficient_User_Interaction_for_Context-Aware_Selection_in_3D_Particle_Clouds.pdf)
+
+<br>
+
+- [ ] **Interactive visual exploration of a trillion particles [LDAV, 2016]** [[Paper]](pdfs/Interactive_visual_exploration_of_a_trillion_particles.pdf)
+
+<br>
+
+- [ ] **Interpolation-Based Pathline Tracing in Particle-Based Flow Visualization [TVCG, 2015]** [[Paper]](pdfs/Interpolation-Based_Pathline_Tracing_in_Particle-Based_Flow_Visualization.pdf)
+
+<br>
+
+- [ ] **MegaMol—A Prototyping Framework for Particle-Based Visualization [TVCG, 2015]** [[Paper]](pdfs/MegaMolA_Prototyping_Framework_for_Particle-Based_Visualization.pdf)
+
+<br>
+
+- [ ] **A level-set method for skinning animated particle data [SIGGRAPH, 2011]** [[Paper]](pdfs/2019406.2019409.pdf)
+
+<br>
+
+- [ ] **Feature-Based Analysis of Plasma-Based Particle Acceleration Data [TVCG, 2014]** [[Paper]](pdfs/Feature-Based_Analysis_of_Plasma-Based_Particle_Acceleration_Data.pdf)
+
+<br>
+
+- [ ] **Vortex Cores of Inertial Particles [TVCG, 2014]** [[Paper]](pdfs/Vortex_Cores_of_Inertial_Particles.pdf)
+
+<br>
+
+- [ ] **Trajectory-Based Flow Feature Tracking in Joint Particle/Volume Datasets [TVCG, 2014]** [[Paper]](pdfs/Trajectory-Based_Flow_Feature_Tracking_in_Joint_Particle_Volume_Datasets.pdf)
+
+<br>
+
+- [ ] **[Splatting Paper] Particle Splatting: Interactive Rendering of Particle-Based Simulation Data** [[Paper]](pdfs/PSIRPBSD_paper.pdf)
+
+<br>
+
 ---
 
-### Topology Comp Geometry
+### Similarity and Comparison
+
+- [ ] **S4: Self-Supervised learning of Spatiotemporal Similarity [TVCG, 2021]** [[Paper]](pdfs/S4_Self-Supervised_learning_of_Spatiotemporal_Similarity.pdf)
+  - Task: identifying other occurences of an event or a process didscovered somewhere in the data
+  - Solution: a data-driven approach to assess the similarity of regions in spatiotemporal scientific data
+  - Siamese network as similarity metric, trained in self-supervised fasion where positive samples are defined as spatial and temporal neighbors.
+
+<br>
+
+- [ ] **A Domain-Oblivious Approach for Learning Concise Representations of Filtered Topological Spaces for Clustering [TVCG, 2021]** [[Paper]](pdfs/A_Domain-Oblivious_Approach_for_Learning_Concise_Representations_of_Filtered_Topological_Spaces_for_Clustering.pdf)
+  - Distance between persistent diagrams is a meausure of topological similarity. With traditional persistent diagram representation like histogram, the computationally expensive Wasserstein distance is used. The author propose a 64-bit binary representation, to which a persistent diagram is transformed by a neural hash encoder such that the hamming distance between codes approximates the Wasserstein distance between the corresponding persistent diagrams.
+
+<br>
+
+- [ ] **V2V: A Deep Learning Approach to Variable-to-Variable Selection and Translation for Multivariate Time-Varying Data [TVCG, 2021]** [[Paper]](pdfs/V2V_A_Deep_Learning_Approach_to_Variable-to-Variable_Selection_and_Translation_for_Multivariate_Time-Varying_Data.pdf)
+  - A U-Net (Conv, Deconv, skip connection) is used to learn the feature of different variables, and then the distance between variable features is calculated with Kullback-Leibler divergence.
+
+
+<br>
+
+- [ ] **Interactive Visual Study of Multiple Attributes Learning Model of X-Ray Scattering Images [TVCG, 2020]** [[Paper]](pdfs/Interactive_Visual_Study_of_Multiple_Attributes_Learning_Model_of_X-Ray_Scattering_Images.pdf)
+  - interactive vis system for training, debugging, and refinement of x-ray image classification models with multiple structual attributes
+  - x-ray image classification model's input, activation, and predction vectors are used three data spaces to perform attribute comparison with 2D projection view, correlation matrix view in their vis system.
+
+<br>
+
+- [ ] **CECAV-DNN: Collective Ensemble Comparison and Visualization using Deep Neural Networks [Visual Informatics, 2020]**[[Paper]](pdfs/1-s2.0-S2468502X20300164-main.pdf)
+  - A binary classfication network predicting whether a member scalar field belongs to 1 of the 2 ensembles.
+  - 1. dissimilarity comparison
+    - Wasserstien distance, as loss function, is used to measure the dissimilarity
+  - 2. member comparison
+    - classification score as indicator of common member between ensembles: even score -> common; extreme score -> different
+
+
+<br>
+
+---
+
+### Topology and Computational Geometry
 
 - [ ] **Mesh Fundamentals**
   - Simplex
@@ -441,10 +634,17 @@
 
 <br>
 
- - [ ] **Screened Poisson Surface Reconstruction [ToG, 2013]** [[Paper]](pdfs/Screened_Poisson_Surface_Reconstruction.pdf)
-    > point cloud surface reconstruction with implicit function
-  - Why optimize equal divergence leads to equal gradient function?
-    - Why $\nabla dot\nabla f=\nabla dot G -> \nabla f= G $
+- [ ] **FTK: A Simplicial Spacetime Meshing Framework for Robust and Scalable Feature Tracking [TVCG, 2021]** [[Paper]](pdfs/FTK_A_Simplicial_Spacetime_Meshing_Framework_for_Robust_and_Scalable_Feature_Tracking.pdf)
+
+<br>
+
+
+- [ ] **Screened Poisson Surface Reconstruction [ToG, 2013]** [[Paper]](pdfs/Screened_Poisson_Surface_Reconstruction.pdf)
+  > point cloud surface reconstruction with implicit function
+- Why optimize equal divergence leads to equal gradient function?
+  - Why $\nabla dot\nabla f=\nabla dot G -> \nabla f= G $
+
+<br>
 
 - [ ] **Poisson Surface Reconstruction [2006]** [[Paper]](pdfs/poissonrecon.pdf)
   - Reconstruct a watertight traingulated approximation of the surface by approximating an indicator function with poisson system and extracting the isosurface
@@ -487,8 +687,21 @@
 
 - [x] **NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis** [[Paper]](pdfs/nerf.pdf)
   - trainig data:
-    - 
+
+<br>
+
+---
+
 ### Transformer
+
+- [ ] **Self-attention Does Not Need O($n^2$) Memory [arxiv, 2021]** Google Research [[Paper]](pdfs/2112.05682.pdf)
+
+<br>
+
+- [ ] **TransGAN: Two Pure Transformers Can Make One Strong GAN, and That Can Scale Up [NIPS, 2021]** [[Paper]](pdfs/2102.07074.pdf)
+  - ![nn](imgs/cv/transgan.png)
+
+<br>
 
 - [ ] **Swin Transformer: Hierarchical Vision Transformer using Shifted Windows [ICCV, 2021]** [[Paper]](pdfs/2103.14030.pdf)
   - Hierachical ViT with bigger and bigger image patch and with shiftid uneven patch window
@@ -506,13 +719,38 @@
       - suitable for small model
       - local feature attention
   - A hybrid of CNN and ViT can be beneficial to leverage arbitrary length of attention while accelerate training with CNN's inductive bias
+  - ![nn](imgs/cv/vit.png)
 <br>
 
 - [ ] **Attention Mechanisms in Computer Vision: A Survey** [[Paper]](pdfs/attention_in_cv.pdf)
 
 <br>
 
+- [x] **Attention Is All You Need** [[Paper]](pdfs/1706.03762.pdf)
+
+
+<br>
+
+---
 ### Implicit Representation
+
+- [ ] **Plenoxels: Radiance Fields without Neural Networks [arxiv, 2021]** [[Paper]](pdfs/plenoxel.pdf)
+  - NN-free grid radiance fields optimizing Spherical Harmonics
+
+<br>
+
+- [ ] **Uncertainty-Aware Radiance Fields AND Controllable Rendered Image**
+  - Uncertain Randiance Field:
+    - learn a ray/sample to distribution function
+      - fixing camera, varying image of different ensemble runs
+      - 
+  - Uncertain Visualization
+    - animated rendering with SAME parameter (showing uncertainty)
+  - Parameter Exploration
+    - animated rendering with DIFF parameter (showing paremter sensitivity)
+
+
+<br>
 
 - [ ] **Deep Marching Tetrahedra: a Hybrid Representation for High-Resolution 3D Shape Synthesis [NIPS, 2021]** [[Paper]](pdfs/deep-marching-tetrahedra.pdf) 
   - main idea and questions:
@@ -537,6 +775,18 @@
 ---
 
 ### Point Cloud
+
+- [ ] **SP-GAN: Sphere-Guided 3D Shape Generation and Manipulation [SIGGRAPH, 2021]** [[Paper]](pdfs/2108.04476.pdf)
+  - Spherical Prior to guide point cloud generation
+    - (Try Spherical Folding)
+
+- [ ] **CVPR 2021: all about self-driving**
+
+<br>
+
+- [ ] **PoinTr: Diverse Point Cloud Completion with Geometry-Aware Transformers [ICCV, 2021]** [[Paper]](pdfs/2108.08839.pdf)
+
+<br>
 
 - [ ] **A Rotation-Invariant Framework for Deep Point Cloud Analysis [TVCG, 2021]** [[Paper]](pdfs/2003.07238.pdf)
 
@@ -586,6 +836,16 @@
 
 <br>
 
+- [ ] **SampleNet: Differentiable Point Cloud Sampling [CVPR, 2020]** [[Paper]](pdfs/Lang_SampleNet_Differentiable_Point_Cloud_Sampling_CVPR_2020_paper.pdf)
+  - Task-specific sampling. Tackled non-differentiability of sampling in **Learn to Sample [CVPR, 2019]**.
+
+<br>
+
+- [ ] **Grid-GCN for Fast and Scalable Point Cloud Learning [CVPR, 2020]** [[Paper]](pdfs/Xu_Grid-GCN_for_Fast_and_Scalable_Point_Cloud_Learning_CVPR_2020_paper.pdf)
+  - regular gridding the points and sample from grids to get both **good coverage** and **less runtime**
+
+<br>
+
 - [x] **(AR-GCN) Point Cloud Super Resolution with Adversarial Residual Graph Networks** [[Paper]](pdfs/1908.02111.pdf)
   - Contribution
     - Adversarial GCN for upsampling task with un-pooling unit
@@ -595,6 +855,55 @@
   - ![eq](imgs/pc/argcn-loss1.png)
   - ![eq](imgs/pc/argcn-loss2.png)
   - ![eq](imgs/pc/argcn-loss3.png)
+<br>
+
+- [ ] **LassoNet: Deep Lasso-Selection of 3D Point Clouds [Scivis, 2019]** [[Paper]](pdfs/LassoNet_Deep_Lasso-Selection_of_3D_Point_Clouds.pdf)
+  - interactive visualization is important for data exploration and understanding. Intellegient data selection/filter is desired for an interactive volume visualization system, but it is difficult to achieve because of the occlusion from 3D volume projected to 2D image. For 3D point cloud or particle lasso selection, traditional heuristics-based algorithm are based on data property. Supervised DNN once trained on labeled dataset, can produce accurate 3D data with selection on 2D image and generalize to similar dataset. For point cloud data, permutation-variant neural networks like PointNet, which is MLP with global pooling, is usually adopted.
+  - Jaccard distance between selected points and target points
+
+<br>
+
+- [ ] **(DGCNN) Dynamic Graph CNN for Learning on Point Clouds [ToG, 2019]** [[Paper]](pdfs/dgcnn.pdf)
+  - EdgeConv -
+    - $\square$: aggregation fn;
+    - $h_\theta$ edge fn;
+    - g: gauss kernel;
+    - u: pairwise euc dist
+    - (u,v) directed edge weight (local structure): $x_v-x_u$
+      - x
+    $$
+    \begin{align*}
+    \begin{split} 
+      x_i' & = \underset{j:(i,j)\in \mathscr{E}}{\square}h_\theta(x_i, x_j) \\
+      (1): x_{im}' & = \sum_{j:(i,j)\in\mathscr{(E)}}\theta_m \cdot x_j \\
+      (2): x_i' & = \underset{j:(i,j)\in \mathscr{E}}{\sum}h_\theta(x_i) \\
+      (3): x_i' & = \underset{j:(i,j)\in \mathscr{E}}{\sum}h_\theta(x_j)g(u(x_i,x_j)) \\
+      (4): x_i' & = \underset{j:(i,j)\in \mathscr{E}}{\sum}h_\theta(x_j-x_i)\\
+      (5, Chosen): x_i' & = \underset{j:(i,j)\in \mathscr{E}}{\sum}h_\theta(x_i \oplus (x_j-x_i)) \\
+      x_{im}' & = \underset{j:(i,j)\in\mathscr{(E)}}{max}e_{ijm}'  \\
+      e_{ijm}' & = ReLU(\theta_m\cdot(x_j-x_i)+\phi_m\cdot x_i) \\
+      \Theta & = (\theta_1,...,\theta_M,\phi_1,...,\phi_M)
+    \end{split}
+    \end{align*}
+    $$
+    - Properties
+      - Permutation invariance: with symmetric functions
+      - 
+
+<br>
+
+- [ ] **Modeling Point Clouds with Self-Attention and Gumbel Subset Sampling [CVPR, 2019]** [[Paper]](pdfs/Yang_Modeling_Point_Clouds_With_Self-Attention_and_Gumbel_Subset_Sampling_CVPR_2019_paper.pdf)
+  - Gumbel Subset Sampliong (GSS)
+    - task-agnostic, permutation invariant, differentiable sampling.
+    - QUESTION: Why is differentiability important?
+  - Group Shuffle Attention (GSA)
+    - more efficient than vanilla MHA
+
+<br>
+
+- [ ] **Learning to Sample [CVPR, 2019]** [[Paper]](pdfs/Dovrat_Learning_to_Sample_CVPR_2019_paper.pdf)
+  - data-driven task-specific sampling 
+
 <br>
 
 - [x] **PU-GAN: a Point Cloud Upsampling Adversarial Network [ICCV, 2019]** [[Paper]](pdfs/1907.10844.pdf)
@@ -647,6 +956,8 @@
     - 2nd stage: for each point *p* in coarse, upsampling by generating neigbhor points with *p*, *v* and folding
   - ![nn](imgs/pcn.png)
 
+<br>
+
 - [x] **VoxelContext-Net: An Octree based Framework for Point Cloud Compression [CVPR, 2021]** [[Paper]](pdfs/VoxelContext-Net_An_Octree_Based_Framework_for_Point_Cloud_Compression_CVPR_2021_paper.pdf)
   > Point Cloud -> Octree -> Occupancy Volume ->
   > Arithmetic Encoding: P(8-bit-string/tree node) learned by deep entropy NN ->
@@ -662,15 +973,28 @@
 
 - [ ] **Deep Learning for 3D Point Clouds: A Survey [arxiv, 2020]** [[Paper]](pdfs/dl-for-pc-survey.pdf)
 
+
+<br>
+
 - [x] **PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation [CVPR, 2017]** [[Papers]](pdfs/pointnet.pdf)
   - permutation invariant point cloud network
+
+<br>
 
 - [ ] **PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space [NIPS, 2017]** [[Paper]](pdfs/pointnet++.pdf)
   - hierachical PointNet
 
+<br>
+
 - [ ] **PointCNN: Convolution On X-Transformed Points [NIPS, 2018]** [[Paper]](pdfs/pointcnn.pdf)
 
-- [x] **FoldingNet: Point Cloud Auto-encoder via Deep Grid Deformation [CVPR, 2018]** [[Paper]](pdfs/Yang_FoldingNet_Point_Cloud_CVPR_2018_paper.pdf)
+<br>
+
+- [x] **FoldingNet: Point Cloud Auto-encoder via Deep Grid Deformation [CVPR, 2018]** [[Paper]](pdfs/1712.07262.pdf)
+  - **Intuition**
+    - the 2D coordinate differentiate the replicated latent to avoid reconstruction collapses to same coordinates
+      - when decoding, latent is replicated and then transoformed. Without the coordinate, empirically the reconstruction will be replications of points (all points collapsing to the same value).
+      - TO BE SHOWN: folding avoids the above problem, by Sformer experiment.
   - Encoder: Graph-based encoder (with permutaiton invariant proof)
   - Decoder: 
     - input/output: latent + 2D coordinate -> 3D Point Coordinate
@@ -680,6 +1004,8 @@
         - 1st folding (MLP): input -> intermediate point cloud
         - 2nd folding (MLP): latent + intermediate point cloud -> final point cloud
       - output: final point cloud
+
+<br>
 
 - [x] **TearingNet: Point Cloud Autoencoder to Learn Topology-Friendly Representations** [[Paper]](pdfs/tearingnet.pdf)
   - Intuition: By "tearing" (i.e. modifying the 2D Grid preped for *folding*) can facilitate topology property (i.e. connectivity) learning for PC reconstruction
@@ -694,6 +1020,8 @@
         - Final Folding (MLP): latent + Updated 2D Grid -> final point cloud
       - output: final point cloud
       - note: (F-T before Final Folding can be repreated like F-T-**F-T-F-T**-F for iterative 2D Grid update)
+
+<br>
 
 ---
 
@@ -712,9 +1040,81 @@
 
 ---
 
-### Uncertainty in DL
+### Generative Model
 
-- [ ] **A Review of Uncertainty Quantification in Deep Learning: Techniques, Applications and Challenges [arxiv, 2020]** [[Paper]](pdfs/UQ_in_DL_survey.pdf)
+- [ ] **Deep Generative Modelling: A Comparative Review of VAEs, GANs, Normalizing Flows, Energy-Based and Autoregressive Models [TPAMI, 2021]**[[Paper]](pdfs/2103.04922.pdf)
+
+<br>
+
+- [ ] **Deep Generative Models: Survey [ISCV, 2018]** [[Paper]](pdfs/Deep_generative_models_Survey.pdf)
+
+<br>
+
+#### GAN
+
+<br>
+
+- [ ] **A Review on Generative Adversarial Networks: Algorithms, Theory, and Applications [TKDE, 2021]** [[Paper]](pdfs/A_Review_on_Generative_Adversarial_Networks_Algorithms_Theory_and_Applications.pdf)
+
+
+<br>
+
+- [ ] **On GANs and GMMs [NIPS, 2018]**
+  - Training a extreme-scale dimensional GMM
+
+<br>
+
+#### Normalizing Flow
+
+<br>
+
+- [ ] **Normalizing Flows for Probabilistic Modeling and Inference [JMLR, 2021]** [[Paper]](pdfs/19-1028.pdf)
+
+<br>
+
+- [ ] **Normalizing Flows: An Introduction and Review of Current Methods [IPAMI, 2020]** [[Paper]](pdfs/1908.09257.pdf)
+
+<br>
+
+#### Energy-Based Models
+
+<br>
+
+- [ ] **How to Train Your Energy-Based Models [arxiv, 2020]** [[Paper]](pdfs/2101.03288.pdf)
+
+<br>
+
+#### VAE
+
+<br>
+
+- [ ] **A survey on Variational Autoencoders from a GreenAI perspective [arxiv, 2021]** [[Paper]](pdfs/2103.01071.pdf)
+
+<br>
+
+- [ ] **Dynamical Variational Autoencoders: A Comprehensive Review [arxiv, 2020]** [[Paper]](pdfs/2008.12595.pdf)
+  - Temporal VAE: handles sequence dependency
+
+<br>
+
+- [ ] **An Introduction to Variantional Autoencoders [Foundations and Trends in ML, 2019]** [[Paper]](pdfs/1906.02691.pdf)
+
+<br>
+
+
+- [ ] **Mixture Density Network [Classics, 1994]** Christopher M. Bishop [[Paper]](pdfs/NCRG_94_004.pdf)
+  - Question:
+    - Difference between EM on GMM?
+      - MDN provides conditional pdf: $P(y|x)=\sum_if_\alpha(x) N(f_\mu(x),f_\sigma(x))$
+    - softmax and exponential term theoretical interpretation
+      - softmax for component prior: sum to one
+      - sigma = exp(z): un-informative Bayesian prior, assuming z has uniform distribution; avoid variance goes to 0
+
+- **Question: GMM vs KDE?**
+  - is GMM a simplified KDE with fewer components?
+  - No:
+    - KDE: each data point represent a distribution
+    - GMM: data points conform to a predefined mixture of components
 
 <br>
 
@@ -742,25 +1142,27 @@
 
 <br>
 
-- [ ] **Mixture Density Network [Classics, 1994]** Christopher M. Bishop [[Paper]](pdfs/NCRG_94_004.pdf)
-  - Question:
-    - Difference between EM on GMM?
-      - MDN provides conditional pdf: $P(y|x)=\sum_if_\alpha(x) N(f_\mu(x),f_\sigma(x))$
-    - softmax and exponential term theoretical interpretation
-      - softmax for component prior: sum to one
-      - sigma = exp(z): un-informative Bayesian prior, assuming z has uniform distribution; avoid variance goes to 0
+---
 
-- **Question: GMM vs KDE?**
-  - is GMM a simplified KDE with fewer components?
-  - No:
-    - KDE: each data point represent a distribution
-    - GMM: data points conform to a predefined mixture of components
+### Uncertainty Quantification
+
+- [ ] **Basic Framework and Main Methods of Uncertainty Quantification [arxiv, 2020]** [[Paper]](pdfs/6068203.pdf)
+
+<br>
+
+- [ ] **A Review of Uncertainty Quantification in Deep Learning: Techniques, Applications and Challenges [arxiv, 2020]** [[Paper]](pdfs/UQ_in_DL_survey.pdf)
+
+<br>
 
 ---
 
 ### Image
 
-- [ ] **Meta-SR: A Magnification-Arbitrary Network for Super-Resolution [CVPR, 2019]** [[Paper]](pdfs/meta-sr.pdf)
+- [ ] **GAN-Control: Explicitly Controllable GANs [arxiv, 2021]** Amazon One [[Paper]](pdfs/gan-control.pdf)
+
+<br>
+
+- [x] **Meta-SR: A Magnification-Arbitrary Network for Super-Resolution [CVPR, 2019]** [[Paper]](pdfs/meta-sr.pdf)
   - Gnerate high res pixel 1 by 1 with scale-aware weights (meta-learning) for arbitrary scale super resolution
   - ![nn](imgs/cv/metasr.png)
   - ![nn](imgs/cv/metasr-algorithm.png)
@@ -771,7 +1173,32 @@
 
 ### NN Optimization and Theory
 
+- [ ] **Early Convolutions Help Transformers See Better [2021]** [[Paper]](pdfs/Early-Convolutions-Help-Transformers-See-Better.pdf)
+  - **early CNN layer helps Transformer opitmization**
+    - robust to **hyperparameter** (lr and wd choice)
+    - **converge** quickly
+    - works with AdamW, and **SGD**
+    - outperforms SOTA CNN
+  - ![nn](imgs/cv/early-cnn-help-transformer.png)
+
+<br>
+
+- [ ] **A Metric Learning Reality Check [arxiv, 2020]** [[Paper]](pdfs/metric-learning-reality-check.pdf)
+
+<br>
+
+- [ ] **On the Spectral Bias of Neural Networks [ICML, 2019]** (Yoshua Bengio group) [[Paper]](pdfs/spectral-bias-dl.pdf)
+
+<br>
+
 - [ ] **Bag of Tricks for Image Classification with Convolutional Neural Networks [arxiv, 2018]** Mu Li, AWS [[Paper]](pdfs/bad-of-tricks-cv-training.pdf)
+  - Training Image Preprocessing
+    - get an image and decode to 32-bit
+    - randomly crop
+    - 0.5 chance flip honrizontally
+    - scale hue, satruation, brightness with coefficients [0.6, 1.4]
+    - PCA noise coefficient from N(0, 0.1)
+    - normalize RGB by subtracting 123.68, 116.779, 103.939 and dividing yb 58.393, 57.12, 57.375
 
 <br>
 
@@ -779,11 +1206,32 @@
 
 <br>
 
-- [ ] **On the Spectral Bias of Neural Networks [ICML, 2019]** (Yoshua Bengio group) [[Paper]](pdfs/spectral-bias-dl.pdf)
+- [ ] **Model Evaluation, Model Selection, and Algorithm Selection in Machine Learning [arxiv, 2018]** [[Paper]](pdfs/1811.12808.pdf)
 
 ---
 
+## Computer Graphics
+### Path Tracing: Denoising
+- [ ] **Weakly-Supervised Contrastive Learning in Path Manifold for Monte Carlo Image Reconstruction [SIGRAPH, 2021]** [[Website]](https://www.notion.so/iycho/Weakly-Supervised-Contrastive-Learning-in-Path-Manifold-for-Monte-Carlo-Image-Reconstruction-d3f58f37e33b491d8fdaef43814c3a3c)
+
+<br>
+
+### Path Tracing: Path Guiding
+- [ ] **Hierarchical Neural Reconstruction for Path Guiding Using Hybrid Path and Photon Samples [SIGGRAPH, 2021]** [[Paper]](pdfs/shilinsig21.pdf)
+
+<br>
+
+### Mipmaping
+- [ ] **NeuMIP: Multi-Resolution Neural Materials [SIGGRAPH, 2021]** [[Paper]](pdfs/neumip_final.pdf)
+
+<Br>
+
+---
 ## Other Topics
+
+- [ ] **Full Transport General Relativistic Radiation Magnetohydrodynamics for Nucleosynthesis in Collapsars [arxiv, 2020]** [[Paper]](pdfs/1912.03378.pdf)
+
+<br>
 
 - [x] **Bigtable: A Distributed Storage System for Structured Data [2006]** Google [[Paper]](pdfs/bigtable-osdi06.pdf)
   > Bigtable: sparse, distributed, persistent multi-dimensional sorted map:
