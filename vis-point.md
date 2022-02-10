@@ -1,3 +1,7 @@
+## [Back](README.md)
+
+<br>
+
 ### Particle
 
 - [ ] **Spatial Partitioning Strategies for Memory-Efficient Ray Tracing of Particles [LDAV, 2020]** [[Paper]](pdfs/Spatial_Partitioning_Strategies_for_Memory-Efficient_Ray_Tracing_of_Particles.pdf)

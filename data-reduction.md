@@ -1,8 +1,12 @@
 
-- [Data Reduction Methods](#data-reduction-methods)
-- [Data Reduction](#data-reduction)
-- [Super Resolution](#super-resolution)
+- [Back](#back)
+  - [Data Reduction Methods](#data-reduction-methods)
+  - [Data Reduction](#data-reduction)
+  - [Super Resolution](#super-resolution)
 
+## [Back](README.md)
+
+<br>
 
 ### Data Reduction Methods
 

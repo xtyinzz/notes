@@ -1,3 +1,7 @@
+## [Back](README.md)
+
+<br>
+
 ### Implicit Neural Representation
 
 - [ ] **Plenoxels: Radiance Fields without Neural Networks [arxiv, 2021]** [[Paper]](pdfs/plenoxel.pdf)

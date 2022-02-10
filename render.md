@@ -1,3 +1,7 @@
+## [Back](README.md)
+
+<br>
+
 ### Rendering
 
 - [x] **NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis** [[Paper]](pdfs/nerf.pdf)
